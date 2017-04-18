@@ -1,0 +1,3 @@
+<select>
+    <option *ngFor="let service of services" value="{{service}}" (select)="onSelect(service)">{{service}}</option>
+</select>
