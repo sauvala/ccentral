@@ -4,11 +4,23 @@ import { Http }       from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 
+export class Metric {
+  key: string;
+  value: any;
+
+  constructor(key: string, value: any) {
+    this.key = key;
+    this.value = value;
+  }
+}
+
 export class Instance {
   id: string;
+  metrics: Metric[];
 
   constructor(id: string) {
     this.id = id;
+    this.metrics = [new Metric("in", 100), new Metric("status", "ok"), new Metric(id + " uniq", 1)]
   }
 }
 

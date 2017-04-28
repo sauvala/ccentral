@@ -8,6 +8,8 @@ import { ServicesService } from './services.service';
 import { ServiceTreeviewComponent } from './service-treeview.component';
 import { ServiceListComponent } from './service-list.component';
 import { StatusBoxComponent } from './status-box.component';
+import { InstanceListComponent } from './instance-list.component';
+import { ServiceInfoComponent } from './service-info.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { StatusBoxComponent } from './status-box.component';
     AppComponent,
     ServiceTreeviewComponent,
     ServiceListComponent,
-    StatusBoxComponent
+    StatusBoxComponent,
+    ServiceInfoComponent,
+    InstanceListComponent
   ],
   imports: [
     BrowserModule,
