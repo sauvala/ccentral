@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ServiceService } from './service.service';
+import { ServicesService, ServiceInfo } from './services.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +8,18 @@ import { ServiceService } from './service.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  selectedService = "Nothing";
+  selectedService: ServiceInfo;
+  services = [];
 
-  constructor(private serviceService: ServiceService) {};
-  
+  constructor(private servicesService: ServicesService) {};
+
   ngOnInit(): void {
-    this.serviceService.getServices();
+    this.services = this.servicesService.getServices();
+    console.log("App component init");
+  }
+
+  selectService(event: string): void {
+    this.selectedService = this.servicesService.getServiceInfo(event);
+    console.log("New service data available for: " + this.selectedService.id);
   }
 }

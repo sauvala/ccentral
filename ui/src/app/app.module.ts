@@ -4,21 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ServiceService } from './service.service';
+import { ServicesService } from './services.service';
+import { ServiceTreeviewComponent } from './service-treeview.component';
 import { ServiceListComponent } from './service-list.component';
+import { StatusBoxComponent } from './status-box.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    ServiceTreeviewComponent,
     ServiceListComponent,
-    ServiceService
+    StatusBoxComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [ServicesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

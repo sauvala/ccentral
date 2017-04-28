@@ -1,16 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'service-list',
-  templateUrl: './service-list.component.html',
-  styleUrls: ['./service-list.component.css']
+  selector: 'service-treeview',
+  templateUrl: './service-treeview.component.html',
 })
-export class ServiceListComponent {
+export class ServiceTreeviewComponent {
   @Output() selectEmit: EventEmitter<string> = new EventEmitter();
   @Input() services: string[];
   @Input() selectedService: string;
 
-  emit(): void {
+  emit(service: string): void {
+    this.selectedService = service;
     this.selectEmit.emit(this.selectedService);
     console.log("Service selected: " + this.selectedService);
   }

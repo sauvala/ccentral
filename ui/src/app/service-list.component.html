@@ -1,3 +1,4 @@
-<select>
-    <option *ngFor="let service of services" value="{{service}}" (select)="onSelect(service)">{{service}}</option>
+<select [(ngModel)]="selectedService" (click)="emit()">
+    <option disabled>Select service</option>
+    <option *ngFor="let service of services" [value]="service">{{service}}</option>
 </select>
