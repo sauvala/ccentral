@@ -1,0 +1,20 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th *ngFor="let header of headers()">{{header}}</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let instance of instances; let i = index">
+            <th scope="row">{{i + 1}}</th>
+            <th *ngFor="let header of headers()">{{representValue(header, instance)}}</th>
+            <th><span class="pull-left-container">
+                <div *ngFor="let tag of tags()">
+                    <small class="label label-{{tag.type}} pull-left">{{tag.text}}</small>
+                </div>
+            </span></th>
+        </tr>
+    </tbody>
+</table>
