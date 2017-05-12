@@ -1,0 +1,12 @@
+<div class="col-md-6 col-xs-12" *ngFor="let config of configs">
+    <form action="" method="POST" class="form" role="form">
+        <div class="form-group">
+        <label for="{{config.key}}">{{config.title}}</label>
+        <p><i>{{config.description}}. Default: '{{config.default}}'</i></p>
+        <div class="input-group">
+            <input [(ngModel)]="configValues[config.key]" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="{{config.key}}">
+            <div class="btn btn-success input-group-addon success" ng-click="saveField(key)"><p ng-hide="value.value == value.value_orig || value.value === null">Save</p></div>
+        </div>
+        </div>
+    </form>
+</div>

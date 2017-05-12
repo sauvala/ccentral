@@ -10,7 +10,7 @@ import { ServiceListComponent } from './service-list.component';
 import { StatusBoxComponent } from './status-box.component';
 import { InstanceListComponent } from './instance-list.component';
 import { ServiceInfoComponent } from './service-info.component';
-
+import { ConfigListComponent } from './config-list.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { ServiceInfoComponent } from './service-info.component';
     ServiceListComponent,
     StatusBoxComponent,
     ServiceInfoComponent,
-    InstanceListComponent
+    InstanceListComponent,
+    ConfigListComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,23 @@ import { Http }       from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+export class Config {
+  key: string;
+  type: string;
+  value: string;
+  default: string;
+  description: string;
+  title: string;
+
+  constructor(key: string, title: string, description: string, type: string, value: string, dValue: string) {
+    this.key = key;
+    this.title = title;
+    this.description = description;
+    this.type = type;
+    this.value = value;
+    this.default = dValue;
+  }
+}
 
 export class Metric {
   key: string;
@@ -38,11 +55,16 @@ export class ServiceInfo {
   id: string;
   instances: Instance[];
   totals: Total[];
+  configs: Config[];
 
   constructor(id: string, data: any) {
     this.id = id;
     this.instances = [new Instance("i1"), new Instance("i2")];
     this.totals = [new Total("Events in", 100), new Total("Failures", 40)]
+    this.configs = [
+      new Config("str_default", "String - Default value", "Example string with default value", "string", "", "default"),
+      new Config("str_value", "String - Set value", "Example string with set value", "string", "new value", "default")
+    ]
   }
 }
 
