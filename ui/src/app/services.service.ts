@@ -72,25 +72,26 @@ export class ServiceInfo {
 export class ServicesService {
 
   constructor(private http: Http) {};
-  serviceUrl = "";
+  serviceUrl = "http://localhost:3000";
 
-  handleError(): void {
+  handleError(reason: string): string[] {
+    console.log("Error when loading services: " + reason);
+    return [];
   };
 
-  getServiceInfo(id: string): ServiceInfo {
-    return new ServiceInfo(id, "");
-  }
+  getServiceInfo(id: string): Promise<ServiceInfo> {
+     const url = `${this.serviceUrl}/api/1/services/${id}`;
+     return this.http.get(url)
+       .toPromise()
+       .then(response => response.json() as ServiceInfo)
+   }
 
-  getServices(): string[] {
-    return ["service1", "service2", "service3"];
-  }
-
-  // getServices(): Promise<string[]> {
-  //   const url = `${this.serviceUrl}`;
-  //   return this.http.get(url)
-  //     .toPromise()
-  //     .then(response => response.json().data as string[])
-  //     .catch(this.handleError);
-  // }
+  getServices(): Promise<string[]> {
+     const url = `${this.serviceUrl}/api/1/services`;
+     return this.http.get(url)
+       .toPromise()
+       .then(response => response.json().services as string[])
+       .catch(this.handleError)
+   }
 }
 

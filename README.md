@@ -2,6 +2,15 @@
 
 Simple centralized configuration management and real-time monitoring for services over etcd.
 
+Types
+
+- string
+- integer
+- boolean
+- password
+- float
+- list
+
 ## WebUI
  
 ### Building

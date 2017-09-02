@@ -14,7 +14,7 @@ test:
 	$(GO) test $(PKGS)
 
 build:
-	$(GO) build
+	GOPATH=${PWD}/vendor $(GO) build
 
 static_linux:
 	rm -rf ${TMP_PATH}
