@@ -44,7 +44,7 @@ func handleMockService(w http.ResponseWriter, r *http.Request) {
 	i["started"] = fmt.Sprintf("%v", time.Now().Unix())
 	info := make(map[string]string)
 	hidePasswordFields(schema, config)
-	output, err := json.Marshal(client.NewService(schema, config, instances, info))
+	output, err := json.Marshal(newService(schema, config, instances, info, "example"))
 	if err != nil {
 		writeInternalError(w, "Could not convert to json", http.StatusInternalServerError)
 		return

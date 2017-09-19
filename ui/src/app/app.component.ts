@@ -11,8 +11,21 @@ import { ServicesService, ServiceInfo } from './services.service';
 export class AppComponent implements OnInit {
   selectedService: ServiceInfo;
   services: string[];
-  updateServices = (newServiceList: string[]) => {this.services = newServiceList};
-  updateServiceInfo = (serviceInfo: ServiceInfo) => {this.selectedService = serviceInfo};
+  updateServices = (newServiceList: string[]) => {
+    this.services = newServiceList;
+  }
+  updateServiceInfo = (serviceInfo: ServiceInfo) => {
+    this.selectedService = serviceInfo;
+    if (serviceInfo != null) {
+      for (let k in serviceInfo.schema)
+      });
+      console.log(serviceInfo.schema);
+      
+      console.log(serviceInfo.schema.values());
+      this.selectedService.configs = Array.from(serviceInfo.schema.values());
+    }
+    console.log('New service data available for: ' + serviceInfo.id);
+  };
 
   constructor(private servicesService: ServicesService) {
     this.selectedService = undefined;
@@ -22,13 +35,12 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.servicesService.getServices().then(this.updateServices,
       function(reason) {
-        console.log("Service loading failed");        
+        console.log('Service loading failed');
       });
-    console.log("App component init");
+    console.log('App component init');
   }
 
   selectService(event: string): void {
-    this.servicesService.getServiceInfo(event).catch(this.updateServiceInfo);
-    console.log("New service data available for: " + this.selectedService.id);
+    this.servicesService.getServiceInfo(event).then(this.updateServiceInfo);
   }
 }
