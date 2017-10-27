@@ -7,5 +7,4 @@ import { Config } from './services.service';
 })
 export class ConfigListComponent {
   @Input() configs: Config[];
-  configValues = {};
 }

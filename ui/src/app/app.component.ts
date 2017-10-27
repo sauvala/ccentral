@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ServicesService, ServiceInfo } from './services.service';
+import { Config, ServicesService, CCServiceInfo, ServiceInfo } from './services.service';
 
 @Component({
   selector: 'app-root',
@@ -14,18 +14,33 @@ export class AppComponent implements OnInit {
   updateServices = (newServiceList: string[]) => {
     this.services = newServiceList;
   }
-  updateServiceInfo = (serviceInfo: ServiceInfo) => {
-    this.selectedService = serviceInfo;
+
+  updateServiceInfo = (serviceInfo: CCServiceInfo) => {
+    this.selectedService = new ServiceInfo(serviceInfo.id);
     if (serviceInfo != null) {
-      for (let k in serviceInfo.schema)
-      });
-      console.log(serviceInfo.schema);
-      
-      console.log(serviceInfo.schema.values());
-      this.selectedService.configs = Array.from(serviceInfo.schema.values());
+      for (const k in serviceInfo.schema) {
+        if (serviceInfo.schema.hasOwnProperty(k)) {
+          this.selectedService.schema.push(Config.fromData(k, serviceInfo.schema[k]));
+          console.log('Loading configuration: ' + k);
+        }
+      }
+      for (const k in serviceInfo.config) {
+        if (serviceInfo.config.hasOwnProperty(k)) {
+          const so = this.selectedService.schema.find(o => o.key === k);
+          if (so !== undefined) {
+            const conf = serviceInfo.config[k];
+            if (conf.value === undefined) {
+              conf.value = '';
+            }
+            so.value = conf.value;
+            so.origValue = conf.value;
+          }
+        }
+      }
+      //console.log(serviceInfo.config)
     }
-    console.log('New service data available for: ' + serviceInfo.id);
-  };
+    console.log('New service data available for: ' + this.selectedService.id);
+  }
 
   constructor(private servicesService: ServicesService) {
     this.selectedService = undefined;

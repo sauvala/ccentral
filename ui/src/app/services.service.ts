@@ -10,14 +10,21 @@ export class Config {
   title: string;
   key: string;
   value: string;
+  origValue: string;
 
-  constructor(title: string, description: string, type: string, dValue: string) {
+  public static fromData(key: string, o: any): Config {
+    console.log(o);
+    return new Config(key, o.title, o.description, o.type, o.default);
+  }
+
+  constructor(key: string, title: string, description: string, type: string, dValue: string) {
     this.title = title;
     this.description = description;
     this.type = type;
     this.default = dValue;
-    this.key = '';
+    this.key = key;
     this.value = '';
+    this.origValue = '';
   }
 }
 
@@ -51,25 +58,29 @@ export class Total {
   }
 }
 
+export class CCTimedKeyValue {
+  value: string;
+  changed: number;
+}
+
+export class CCServiceInfo {
+  id: string;
+  schema: Map<string, Config>;
+  config: Map<string, CCTimedKeyValue>;
+}
+
 export class ServiceInfo {
   id: string;
   instances: Instance[];
   totals: Total[];
-  // schema: Map<string, Config>;
-  schema: Object;
-  configs: Config[];
+  schema: Config[];
+  //configs: Map<string, Config>;
 
-  constructor(id: string, data: any) {
+  constructor(id: string) {
     this.id = id;
     this.instances = [new Instance('i1'), new Instance('i2')];
     this.totals = [new Total('Events in', 100), new Total('Failures', 40)]
-    this.schema = new Map();
-    this.schema['str_default'] = new Config('String - Default value', 'Example string with default value', 'string', 'default');
-    this.schema['str_default'] = new Config('String - Set value', 'Example string with set value', 'string', 'default')
-    //    this.configs = [
-//      new Config("str_default", "String - Default value", "Example string with default value", "string", "", "default"),
-//      new Config("str_value", "String - Set value", "Example string with set value", "string", "new value", "default")
-//    ]
+    this.schema = [];
   }
 }
 
@@ -84,11 +95,11 @@ export class ServicesService {
     return [];
   };
 
-  getServiceInfo(id: string): Promise<ServiceInfo> {
+  getServiceInfo(id: string): Promise<CCServiceInfo> {
      const url = `${this.serviceUrl}/api/1/services/${id}`;
      return this.http.get(url)
        .toPromise()
-       .then(response => response.json() as ServiceInfo);
+       .then(response => response.json() as CCServiceInfo);
    }
 
   getServices(): Promise<string[]> {
