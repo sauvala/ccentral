@@ -1,4 +1,4 @@
-<div class="col-md-6 col-xs-12" *ngFor="let s of configs">
+<div class="col-md-6 col-xs-12" *ngFor="let s of selectedService.schema">
   <form action="" method="POST" class="form" role="form">
     <div class="form-group">
       <label for="{{s.key}}">{{s.title}}</label>
@@ -7,7 +7,7 @@
       </p>
       <div class="input-group">
         <input [(ngModel)]="s.value" placeholder="{{s.default}}" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="{{s.key}}">
-        <div class="btn btn-success input-group-addon success" (click)="saveField(s.key)">
+        <div class="btn btn-success input-group-addon success" (click)="saveField(s.key, s.value)">
           <p [hidden]="s.value === s.origValue">Save</p>
         </div>
       </div>

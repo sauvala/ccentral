@@ -102,12 +102,20 @@ export class ServicesService {
        .then(response => response.json() as CCServiceInfo);
    }
 
+  saveField(serviceId: string, key: string, value: string): Promise<string> {
+    console.log('Saving ' + key + ' = ' + value);
+    const url = `${this.serviceUrl}/api/1/services/${serviceId}"/keys/${key}"`;
+    return this.http.put(url, value)
+      .toPromise()
+      .then(response => response.text() as string);
+  }
+
   getServices(): Promise<string[]> {
      const url = `${this.serviceUrl}/api/1/services`;
      return this.http.get(url)
        .toPromise()
        .then(response => response.json().services as string[])
-       .catch(this.handleError)
+       .catch(this.handleError);
    }
 }
 
