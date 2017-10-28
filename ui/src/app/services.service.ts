@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Metric } from './metrics';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -25,44 +26,6 @@ export class Config {
     this.key = key;
     this.value = '';
     this.origValue = '';
-  }
-}
-
-export class Metric {
-  public _key: string;
-  public _value: any;
-
-  public title(): string {
-    return this._key[0].toUpperCase() + this._key.substring(1);
-  }
-
-  public value(): string {
-    return this._value;
-  }
-
-  public static fromData(key: string, value: any) {
-    if (key === 'started') {
-      return new TimeDelta(key, value);
-    }
-    return new Metric(key, value);
-  }
-
-  constructor(key: string, value: any) {
-    this._key = key;
-    this._value = value;
-  }
-}
-
-export class TimeDelta extends Metric {
-  
-  public value() : string {
-    let v = ((new Date).getTime()/1000 - parseInt(this._value))/60;
-    if (v < 1) {
-        return "Just now";
-    } else if (v > 60*24) {
-        return "" + Math.round(v/(60*24)) + " days";
-    }
-    return "" + Math.round(v) + " min";
   }
 }
 
@@ -163,6 +126,23 @@ export class ServiceInfo {
       }
     }
     // Calculate totals
+    let totals = new Map<string, any>();
+    let titles = new Map<string, string>();
+    retInfo.instances.forEach(instance => {
+      instance.metrics.forEach(metric => {
+        let v = totals[metric._key];
+        v = metric.groupValues(v);
+        if (v !== undefined) {
+          totals[metric._key] = v;
+          titles[metric._key] = metric.title();
+        }
+      });
+    });
+    for (const k in totals) {
+      let v = totals[k];
+      retInfo.totals.push(new Total(titles[k], v));
+    };
+
     return retInfo;
   }
 

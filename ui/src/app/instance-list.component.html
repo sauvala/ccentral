@@ -9,7 +9,7 @@
     <tbody>
         <tr *ngFor="let instance of instances; let i = index">
             <th scope="row">{{i + 1}}</th>
-            <th *ngFor="let key of header_key()">{{representValue(header, instance)}}</th>
+            <th *ngFor="let key of headerKeys()">{{representValue(key, instance)}}</th>
             <th><span class="pull-left-container">
                 <div *ngFor="let tag of tags()">
                     <small class="label label-{{tag.type}} pull-left">{{tag.text}}</small>

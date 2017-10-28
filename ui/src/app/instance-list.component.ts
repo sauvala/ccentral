@@ -23,7 +23,7 @@ export class InstanceListComponent {
     if (metric === undefined) {
       return "N/A";
     }
-    return String(metric.value());
+    return metric.value();
   }
 
   headerKeys(): string[] {
@@ -33,7 +33,7 @@ export class InstanceListComponent {
         headers.add(metric._key);
       });
     });
-    return Array.from(headers.keys());    
+    return Array.from(headers.keys());
   }
 
   headers(): string[] {

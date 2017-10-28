@@ -59,7 +59,8 @@ Parameters also work from environvent variables (`ETCD`, `PORT`)
 #### /ccentral/services/`SERVICE_ID`/clients/`CLIENT_ID`
 
 - `v` : Configuration version
-- `cv` : Client library version 
+- `cv` : CCentral Client library version 
+- `av` : CCentral Client API version 
 - `ts` : Last update in epoch seconds
 - `av` : API version
 - `hostname` : Client hostname
