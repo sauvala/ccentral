@@ -66,4 +66,8 @@ Parameters also work from environvent variables (`ETCD`, `PORT`)
 - `lv` : Language version
 - `started` : Epoch timestamp in seconds
 - `uinterval` : Reporting interval
-- `k_` : Prefix for custom keys
+
+_Prefixes_
+
+- `k_` : String values
+- `c_` : Counter history (List of hits / minute)

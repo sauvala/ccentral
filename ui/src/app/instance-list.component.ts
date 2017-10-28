@@ -19,18 +19,28 @@ export class InstanceListComponent {
   @Input() instances: Instance[];
 
   representValue(header: string, instance: Instance): string {
-    let metric = instance.metrics.find(item => item.key === header);
+    let metric = instance.metrics.find(item => item._key === header);
     if (metric === undefined) {
       return "N/A";
     }
-    return String(metric.value);
+    return String(metric.value());
+  }
+
+  headerKeys(): string[] {
+    let headers = new Set<string>();
+    this.instances.forEach(instance => {
+      instance.metrics.forEach(metric => {
+        headers.add(metric._key);
+      });
+    });
+    return Array.from(headers.keys());    
   }
 
   headers(): string[] {
     let headers = new Set<string>();
     this.instances.forEach(instance => {
       instance.metrics.forEach(metric => {
-        headers.add(metric.key);
+        headers.add(metric.title());
       });
     });
     return Array.from(headers.keys());

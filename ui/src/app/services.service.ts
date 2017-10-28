@@ -29,12 +29,40 @@ export class Config {
 }
 
 export class Metric {
-  key: string;
-  value: any;
+  public _key: string;
+  public _value: any;
+
+  public title(): string {
+    return this._key[0].toUpperCase() + this._key.substring(1);
+  }
+
+  public value(): string {
+    return this._value;
+  }
+
+  public static fromData(key: string, value: any) {
+    if (key === 'started') {
+      return new TimeDelta(key, value);
+    }
+    return new Metric(key, value);
+  }
 
   constructor(key: string, value: any) {
-    this.key = key;
-    this.value = value;
+    this._key = key;
+    this._value = value;
+  }
+}
+
+export class TimeDelta extends Metric {
+  
+  public value() : string {
+    let v = ((new Date).getTime()/1000 - parseInt(this._value))/60;
+    if (v < 1) {
+        return "Just now";
+    } else if (v > 60*24) {
+        return "" + Math.round(v/(60*24)) + " days";
+    }
+    return "" + Math.round(v) + " min";
   }
 }
 
@@ -42,9 +70,20 @@ export class Instance {
   id: string;
   metrics: Metric[];
 
+  public static fromData(id: string, data: Map<string, any>): Instance {
+    let instance = new Instance(id);
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+        var element = data[key];
+        instance.metrics.push(Metric.fromData(key, element));
+      }
+    }
+    return instance;
+  }
+
   constructor(id: string) {
     this.id = id;
-    this.metrics = [new Metric('in', 100), new Metric('status', 'ok'), new Metric(id + ' uniq', 1)]
+    this.metrics = [];
   }
 }
 
@@ -58,6 +97,16 @@ export class Total {
   }
 }
 
+export class KeyValue {
+  key: string;
+  value: string;
+
+  constructor(k: string, v: string) {
+    this.key = k;
+    this.value = v;
+  }
+}
+
 export class CCTimedKeyValue {
   value: string;
   changed: number;
@@ -67,6 +116,8 @@ export class CCServiceInfo {
   id: string;
   schema: Map<string, Config>;
   config: Map<string, CCTimedKeyValue>;
+  info: Map<string, string>;
+  clients: Map<string, Map<string, any>>;
 }
 
 export class ServiceInfo {
@@ -74,13 +125,53 @@ export class ServiceInfo {
   instances: Instance[];
   totals: Total[];
   schema: Config[];
-  //configs: Map<string, Config>;
+  info: KeyValue[];
+
+  public static fromCCData(data: CCServiceInfo) {
+    // Collect schema info
+    let retInfo = new ServiceInfo(data.id);
+    for (const k in data.schema) {
+      if (data.schema.hasOwnProperty(k)) {
+        retInfo.schema.push(Config.fromData(k, data.schema[k]));
+        console.log('Loading configuration: ' + k);
+      }
+    }
+    // Collect configuration values
+    for (const k in data.config) {
+      if (data.config.hasOwnProperty(k)) {
+        const so = retInfo.schema.find(o => o.key === k);
+        if (so !== undefined) {
+          const conf = data.config[k];
+          if (conf.value === undefined) {
+            conf.value = '';
+          }
+          so.value = conf.value;
+          so.origValue = conf.value;
+        }
+      }
+    }
+    // Collect instance info
+    for (const k in data.clients) {
+      if (data.clients.hasOwnProperty(k)) {
+        retInfo.instances.push(Instance.fromData(k, data.clients[k]));
+      }
+    }
+    // Collect service info
+    for (const k in data.info) {
+      if (data.info.hasOwnProperty(k)) {
+        retInfo.info.push(new KeyValue(k, data.info[k]));
+      }
+    }
+    // Calculate totals
+    return retInfo;
+  }
 
   constructor(id: string) {
     this.id = id;
-    this.instances = [new Instance('i1'), new Instance('i2')];
-    this.totals = [new Total('Events in', 100), new Total('Failures', 40)]
+    this.instances = [];
+    this.totals = [];
     this.schema = [];
+    this.info = [];
   }
 }
 

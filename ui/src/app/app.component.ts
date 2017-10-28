@@ -15,29 +15,10 @@ export class AppComponent implements OnInit {
     this.services = newServiceList;
   }
 
-  updateServiceInfo = (serviceInfo: CCServiceInfo) => {
-    this.selectedService = new ServiceInfo(serviceInfo.id);
-    if (serviceInfo != null) {
-      for (const k in serviceInfo.schema) {
-        if (serviceInfo.schema.hasOwnProperty(k)) {
-          this.selectedService.schema.push(Config.fromData(k, serviceInfo.schema[k]));
-          console.log('Loading configuration: ' + k);
-        }
-      }
-      for (const k in serviceInfo.config) {
-        if (serviceInfo.config.hasOwnProperty(k)) {
-          const so = this.selectedService.schema.find(o => o.key === k);
-          if (so !== undefined) {
-            const conf = serviceInfo.config[k];
-            if (conf.value === undefined) {
-              conf.value = '';
-            }
-            so.value = conf.value;
-            so.origValue = conf.value;
-          }
-        }
-      }
-      //console.log(serviceInfo.config)
+  updateServiceInfo = (ccServiceData: CCServiceInfo) => {
+    if (ccServiceData != null) {
+      this.selectedService = ServiceInfo.fromCCData(ccServiceData);
+      console.log(ccServiceData);
     }
     console.log('New service data available for: ' + this.selectedService.id);
   }

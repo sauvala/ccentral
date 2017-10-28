@@ -42,7 +42,15 @@ func handleMockService(w http.ResponseWriter, r *http.Request) {
 	i := make(map[string]interface{})
 	instances["1234"] = i
 	i["started"] = fmt.Sprintf("%v", time.Now().Unix())
+	i["data-in"] = fmt.Sprintf("10")
+	i["cv"] = fmt.Sprintf("1.0.0")
+	i = make(map[string]interface{})
+	instances["1235"] = i
+	i["started"] = fmt.Sprintf("%v", time.Now().Unix())
+	i["data-in"] = fmt.Sprintf("40")
+	i["cv"] = fmt.Sprintf("1.0.0")
 	info := make(map[string]string)
+	info["str_infoline"] = "info"
 	hidePasswordFields(schema, config)
 	output, err := json.Marshal(newService(schema, config, instances, info, "example"))
 	if err != nil {

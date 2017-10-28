@@ -15,10 +15,6 @@ import (
 	"github.com/slvwolf/ccentral/plugins"
 )
 
-<<<<<<< HEAD
-var cc client.CCApi
-var ccService *client.CCentralService
-=======
 // Service is a container for all service data
 type service struct {
 	Schema    map[string]SchemaItem             `json:"schema"`
@@ -31,7 +27,6 @@ type service struct {
 func newService(schema map[string]SchemaItem, config map[string]ConfigItem, instances map[string]map[string]interface{}, info map[string]string, id string) *service {
 	return &service{Schema: schema, Config: config, Instances: instances, Info: info, ID: id}
 }
->>>>>>> Updates to new UI
 
 func writeInternalError(w http.ResponseWriter, msg string, status int) {
 	w.WriteHeader(status)
@@ -144,12 +139,8 @@ func handleService(w http.ResponseWriter, r *http.Request) {
 		writeInternalError(w, "Could not retrieve service info", http.StatusInternalServerError)
 		return
 	}
-<<<<<<< HEAD
 	hidePasswordFields(schema, config)
-	output, err := json.Marshal(client.NewService(schema, config, instances, info))
-=======
-	output, err := json.Marshal(newService(schema, config, instances, info, serviceID))
->>>>>>> Updates to new UI
+	output, err := json.Marshal(client.NewService(schema, config, instances, info, serviceID))
 	if err != nil {
 		writeInternalError(w, "Could not convert to json", http.StatusInternalServerError)
 		return
