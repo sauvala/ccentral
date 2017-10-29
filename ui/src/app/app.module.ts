@@ -9,8 +9,9 @@ import { ServiceTreeviewComponent } from './service-treeview.component';
 import { ServiceListComponent } from './service-list.component';
 import { StatusBoxComponent } from './status-box.component';
 import { InstanceListComponent } from './instance-list.component';
-import { ServiceInfoComponent } from './service-info.component';
 import { ConfigListComponent } from './config-list.component';
+import { InfoListComponent } from './info-list.component';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ConfigListComponent } from './config-list.component';
     ServiceTreeviewComponent,
     ServiceListComponent,
     StatusBoxComponent,
-    ServiceInfoComponent,
+    InfoListComponent,
     InstanceListComponent,
     ConfigListComponent
   ],

@@ -7,9 +7,9 @@
       </p>
       <div class="input-group">
         <input [(ngModel)]="s.value" placeholder="{{s.default}}" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="{{s.key}}">
-        <div class="btn btn-success input-group-addon success" (click)="saveField(s.key, s.value)">
-          <p [hidden]="s.value === s.origValue">Save</p>
-        </div>
+        <span class="btn btn-success input-group-addon success" (click)="saveField(s.key, s.value)">
+          <b *ngIf="s.value !== s.origValue">Save</b>
+        </span>
       </div>
     </div>
   </form>

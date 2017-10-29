@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import { Config, ServicesService, CCServiceInfo, ServiceInfo } from './services.service';
 
@@ -10,15 +11,24 @@ import { Config, ServicesService, CCServiceInfo, ServiceInfo } from './services.
 
 export class AppComponent implements OnInit {
   selectedService: ServiceInfo;
+  loading: boolean;
   services: string[];
+
   updateServices = (newServiceList: string[]) => {
     this.services = newServiceList;
   }
 
   updateServiceInfo = (ccServiceData: CCServiceInfo) => {
-    if (ccServiceData != null) {
-      this.selectedService = ServiceInfo.fromCCData(ccServiceData);
-      console.log(ccServiceData);
+    this.loading = false;
+    if (ccServiceData != null) {      
+      let newServiceData = ServiceInfo.fromCCData(ccServiceData);
+      if (this.selectedService === undefined || this.selectedService.id !== newServiceData.id) {
+        this.selectedService = newServiceData;
+      } else {
+        this.selectedService.info = newServiceData.info;
+        this.selectedService.totals = newServiceData.totals;
+        this.selectedService.instances = newServiceData.instances;
+      }
     }
     console.log('New service data available for: ' + this.selectedService.id);
   }
@@ -28,11 +38,21 @@ export class AppComponent implements OnInit {
     this.services = [];
   };
 
-  ngOnInit(): void {
+  refreshServicePoll() {
+    if (this.selectedService !== undefined) {
+      console.log("Reloading..");
+      this.loading = true;
+      this.servicesService.getServiceInfo(this.selectedService.id).then(this.updateServiceInfo);
+    }
+  }
+
+  ngOnInit(): void {    
     this.servicesService.getServices().then(this.updateServices,
       function(reason) {
         console.log('Service loading failed');
       });
+    let timer = Observable.timer(2000, 2000);
+    timer.subscribe(t => this.refreshServicePoll());
     console.log('App component init');
   }
 
