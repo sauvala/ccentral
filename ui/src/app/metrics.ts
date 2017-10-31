@@ -1,6 +1,29 @@
+export class TotalMetric {
+  public values: Map<string, any>;
+  public outputBig: string;
+  public outputSmall: string;
+  public outputTitle: string;
+
+  constructor(title: string) {
+    this.values = new Map<string, any>();
+    this.outputTitle = title;
+  }
+}
+
 export class Metric {
   public _key: string;
   public _value: any;
+
+  public static fromData(key: string, value: any) {
+    if (key === 'started') {
+      return new TimeDeltaMetric(key, value);
+    } else if (key.startsWith('c_')) {
+      return new CounterMetric(key, value);
+    } else if (key.startsWith('k_')) {
+      return new CustomKeyMetric(key, value);
+    }
+    return new Metric(key, value);
+  }
 
   public title(): string {
     return this._key[0].toUpperCase() + this._key.substring(1);
@@ -18,17 +41,6 @@ export class Metric {
     return undefined;
   }
 
-  public static fromData(key: string, value: any) {
-    if (key === 'started') {
-      return new TimeDeltaMetric(key, value);
-    } else if (key.startsWith("c_")) {
-      return new CounterMetric(key, value);
-    } else if (key.startsWith("k_")) {
-      return new CustomKeyMetric(key, value);
-    }
-    return new Metric(key, value);
-  }
-
   constructor(key: string, value: any) {
     this._key = key;
     this._value = value;
@@ -36,15 +48,14 @@ export class Metric {
 }
 
 export class TimeDeltaMetric extends Metric {
-  
-  public value() : string {
-    let v = ((new Date).getTime()/1000 - parseInt(this._value))/60;
+  public value(): string {
+    const v = ((new Date).getTime() / 1000 - parseInt(this._value, 10)) / 60;
     if (v < 1) {
-        return "Just now";
-    } else if (v > 60*24) {
-        return "" + Math.round(v/(60*24)) + " days";
+        return 'Just now';
+    } else if (v > 60 * 24) {
+        return '' + Math.round(v / ( 60 * 24)) + ' days';
     }
-    return "" + Math.round(v) + " min";
+    return '' + Math.round(v) + ' min';
   }
 }
 
@@ -62,22 +73,32 @@ export class CounterMetric extends Metric {
   }
 
   public value(): string {
-    let data = this._value as Number[]
+    const data = this._value as Number[];
     if (data === undefined) {
-      return "N/A";
+      return 'N/A';
     }
-    return String(data[0])
+    return String(data[0]);
   }
 
-  public groupValues(otherValues: any): any {
-    otherValues = otherValues as Number
-    let data = this._value as Number[]
+  public groupValues(totalMetric: TotalMetric): TotalMetric {
+    const data = this._value as Number[];
     if (data === undefined || data.length === 0) {
-      return otherValues;
+      return totalMetric;
     }
-    if (otherValues === undefined) {
-      return Number(data[0]);
+
+    if (totalMetric === undefined) {
+      totalMetric = new TotalMetric(this.title() + ' 1/min');
+      totalMetric.values['total'] = Number(data[0]);
+      totalMetric.values['min'] = Number(data[0]);
+      totalMetric.values['max'] = Number(data[0]);
+    } else {
+      const totalValue = Number(totalMetric.values.get('total'));
+      totalMetric['total'] = totalValue + Number(data[0]);
+      totalMetric['min'] = Math.min(Number(totalMetric['min']), Number(data[0]));
+      totalMetric['max'] = Math.max(Number(totalMetric['max']), Number(data[0]));
     }
-    return otherValues + data[0];
+    totalMetric.outputBig = String(totalMetric.values['total']);
+    totalMetric.outputSmall =  String(totalMetric.values['min'] + ' - ' + totalMetric.values['max']);
+    return totalMetric;
   }
 }

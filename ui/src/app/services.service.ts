@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { Metric } from './metrics';
+import { Metric, TotalMetric } from './metrics';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -52,11 +52,15 @@ export class Instance {
 
 export class Total {
   id: string;
-  value: number;
+  bigValue: string;
+  smallValue: string;
+  title: string;
 
-  constructor(id: string, value: number) {
+  constructor(id: string, title: string, bigValue: string, smallValue: string) {
     this.id = id;
-    this.value = value;
+    this.title = title;
+    this.bigValue = bigValue;
+    this.smallValue = smallValue;
   }
 }
 
@@ -126,8 +130,8 @@ export class ServiceInfo {
       }
     }
     // Calculate totals
-    let totals = new Map<string, any>();
-    let titles = new Map<string, string>();
+    const totals = new Map<string, TotalMetric>();
+    const titles = new Map<string, string>();
     retInfo.instances.forEach(instance => {
       instance.metrics.forEach(metric => {
         let v = totals[metric._key];
@@ -139,8 +143,10 @@ export class ServiceInfo {
       });
     });
     for (const k in totals) {
-      let v = totals[k];
-      retInfo.totals.push(new Total(titles[k], v));
+      if (totals.hasOwnProperty(k)) {
+        const v = totals[k] as TotalMetric;
+        retInfo.totals.push(new Total(k, v.outputTitle, v.outputBig, v.outputSmall));
+      }
     };
 
     return retInfo;

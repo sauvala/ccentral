@@ -60,7 +60,7 @@
         <div *ngIf="selectedService != null">
           <div class="row">
             <div *ngFor="let total of selectedService.totals" class="col-md-3 col-sm-6 col-xs-12">
-              <status-box [(title)]="total.id" [(value)]="total.value" faIcon="area-chart"></status-box>
+              <status-box [(title)]="total.title" [(bigValue)]="total.bigValue" [(smallValue)]="total.smallValue" faIcon="area-chart"></status-box>
             </div>
           </div>
 

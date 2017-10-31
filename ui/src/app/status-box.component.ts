@@ -6,6 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class StatusBoxComponent {
   @Input() title: string[];
-  @Input() value: string;
+  @Input() bigValue: string;
+  @Input() smallValue: string;
   @Input() faIcon: string;
 }
