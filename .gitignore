@@ -1,1 +1,8 @@
+*.iml
+_vendor
+vendor
 ccentral
+node_modules
+
+# System Files
+.DS_Store
