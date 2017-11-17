@@ -98,7 +98,7 @@ export class CounterMetric extends Metric {
       totalMetric['max'] = Math.max(Number(totalMetric['max']), Number(data[0]));
     }
     totalMetric.outputBig = String(totalMetric.values['total']);
-    totalMetric.outputSmall =  String(totalMetric.values['min'] + ' - ' + totalMetric.values['max']);
+    totalMetric.outputSmall =  'min ' + String(totalMetric.values['min'] + ', max ' + totalMetric.values['max']);
     return totalMetric;
   }
 }

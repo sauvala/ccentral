@@ -12,9 +12,9 @@ export class Config {
   key: string;
   value: string;
   origValue: string;
+  systemConfig: boolean;
 
   public static fromData(key: string, o: any): Config {
-    console.log(o);
     return new Config(key, o.title, o.description, o.type, o.default);
   }
 
@@ -26,6 +26,11 @@ export class Config {
     this.key = key;
     this.value = '';
     this.origValue = '';
+    this.systemConfig = false;
+    // Version is a system wide configuration
+    if (key === 'v') {
+      this.systemConfig = true;
+    }
   }
 }
 
@@ -93,13 +98,18 @@ export class ServiceInfo {
   totals: Total[];
   schema: Config[];
   info: KeyValue[];
+  version: number;
+  updated: number;
 
   public static fromCCData(data: CCServiceInfo) {
     // Collect schema info
     let retInfo = new ServiceInfo(data.id);
     for (const k in data.schema) {
       if (data.schema.hasOwnProperty(k)) {
-        retInfo.schema.push(Config.fromData(k, data.schema[k]));
+        let conf = Config.fromData(k, data.schema[k]);
+        if (!conf.systemConfig) {
+          retInfo.schema.push(conf);
+        }
         console.log('Loading configuration: ' + k);
       }
     }
@@ -117,6 +127,9 @@ export class ServiceInfo {
         }
       }
     }
+    retInfo.version = Number.parseInt(data.config["v"].value);
+    retInfo.updated = Number.parseInt(data.config["v"].updated);
+
     // Collect instance info
     for (const k in data.clients) {
       if (data.clients.hasOwnProperty(k)) {
@@ -181,7 +194,7 @@ export class ServicesService {
 
   saveField(serviceId: string, key: string, value: string): Promise<string> {
     console.log('Saving ' + key + ' = ' + value);
-    const url = `${this.serviceUrl}/api/1/services/${serviceId}"/keys/${key}"`;
+    const url = `${this.serviceUrl}/api/1/services/${serviceId}/keys/${key}`;
     return this.http.put(url, value)
       .toPromise()
       .then(response => response.text() as string);

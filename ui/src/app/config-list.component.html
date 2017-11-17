@@ -1,15 +1,25 @@
-<div class="col-md-6 col-xs-12" *ngFor="let s of selectedService.schema">
+<div class="col-md-12 col-xs-12 well">
+  <b>Version {{selectedService.version}}</b> <small>(Updated {{selectedService.updated}})</small>
+</div>
+
+<div class="col-md-12 col-xs-12" *ngFor="let s of selectedService.schema">
   <form action="" method="POST" class="form" role="form">
     <div class="form-group">
       <label for="{{s.key}}">{{s.title}}</label>
       <p>
         <i>{{s.description}}. Default: '{{s.default}}'</i>
       </p>
-      <div class="input-group">
-        <input [(ngModel)]="s.value" placeholder="{{s.default}}" [ngModelOptions]="{standalone: true}" type="text" class="form-control" id="{{s.key}}">
-        <span class="btn btn-success input-group-addon success" (click)="saveField(s.key, s.value)">
-          <b *ngIf="s.value !== s.origValue">Save</b>
-        </span>
+
+      <!-- boolean -->
+      <div *ngIf="s.type === 'boolean'" class="input-group">
+        <input type="checkbox" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}" id="{{s.key}}"> Enabled
+        <button *ngIf="s.value !== s.origValue" type="submit" style="margin-left: 20px" class="btn btn-success btn-sm" (click)="saveField(s.key, s.value)">Save</button>
+      </div>
+      <div *ngIf="s.type !== 'boolean'" class="input-group">
+          <input type="text" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="{{s.default}}" id="{{s.key}}">
+          <span class="btn btn-success input-group-addon success" (click)="saveField(s.key, s.value)">
+            <b *ngIf="s.value !== s.origValue">Save</b>
+          </span>
       </div>
     </div>
   </form>

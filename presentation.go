@@ -18,6 +18,7 @@ func handleMockService(w http.ResponseWriter, r *http.Request) {
 	setHeaders(w)
 	//serviceID := vars["serviceId"]
 	schema := make(map[string]SchemaItem)
+	schema["v"] = *newSchemaItem("0", "integer", "Version", "Version")
 	schema["example-str-set"] = *newSchemaItem("default", "string", "Configuration SET (String)", "Configuration with some configuration set")
 	schema["example-str-unset"] = *newSchemaItem("default", "string", "Configuration UNSET (String)", "Configuration with default values")
 	schema["example-int-set"] = *newSchemaItem("0", "integer", "Configuration SET (Integer)", "Configuration with some configuration set")
@@ -31,6 +32,7 @@ func handleMockService(w http.ResponseWriter, r *http.Request) {
 	schema["example-list-set"] = *newSchemaItem("[]", "list", "Configuration SET (List)", "Configuration with some configuration set")
 	schema["example-list-unset"] = *newSchemaItem("[]", "list", "Configuration UNSET (List)", "Configuration with default values")
 	config := make(map[string]ConfigItem)
+	config["v"] = *newConfigItem("2", 0)
 	config["example-str-set"] = *newConfigItem("Value is set", 0)
 	config["example-old-conf"] = *newConfigItem("This config should not be shown", 0)
 	config["example-int-set"] = *newConfigItem("1", 0)
