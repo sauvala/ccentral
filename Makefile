@@ -15,7 +15,9 @@ test:
 
 build:
 	GOPATH=${PWD}/vendor $(GO) build
+	cd ui && ng build && cd ..
 
+<<<<<<< HEAD
 static_linux:
 	rm -rf ${TMP_PATH}
 	mkdir ${TMP_PATH}
@@ -26,3 +28,17 @@ static_linux:
 		github.com/pkg/errors
 	cp -r * ${TMP_PATH}/src/github.com/slvwolf/ccentral
 	GOPATH=${TMP_PATH} env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
+=======
+static:
+	env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
+	cd ui && ng build && cd ..
+
+vendor_clean:
+	rm -dRf ${PWD}/vendor/src
+
+vendor_get: vendor_clean
+	GOPATH=${PWD}/vendor go get -d -u -v \
+	github.com/gorilla/mux \
+	github.com/coreos/etcd/client \
+	golang.org/x/net/context
+>>>>>>> Use the new UI

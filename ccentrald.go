@@ -42,7 +42,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	path := vars["path"]
 	res := vars["res"]
 	if path == "" || path == "/" {
-		res = "index2.html"
+		res = "index.html"
 		path = ""
 	}
 	if path == "js" {
@@ -52,7 +52,7 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "text/css")
 	}
 	w.WriteHeader(200)
-	path = "web/" + path + "/" + res
+	path = "ui/build/" + path + "/" + res
 	body, _ := ioutil.ReadFile(path)
 	w.Write(body)
 }
