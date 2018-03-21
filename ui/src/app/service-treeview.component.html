@@ -1,16 +1,12 @@
-<li class="treeview">
-    <a href="#">
-        <i class="fa fa-laptop"></i>
-        <span>Applications</span>
-        <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-right"></i>
-        </span>
-    </a>
-    <ul class="treeview-menu">
-        <li *ngFor="let service of services">
-            <a href="#" (click)="emit(service)">
-                <i class="fa fa-circle-o"></i> {{service}}
-            </a>
-        </li>
-    </ul>
-</li>
+<ul class="sidebar-menu">
+    <li class="header">APPLICATIONS</li>
+    <li class="treeview" *ngFor="let service of services">
+        <a href="#" (click)="emit(service)">
+            <i class="fa fa-laptop"></i>
+            <span>{{service}}</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-right pull-right"></i>
+            </span>
+        </a>
+    </li>
+</ul>

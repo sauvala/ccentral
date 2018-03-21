@@ -159,6 +159,25 @@ func collectInstanceCounters(data map[string]interface{}, counters map[string]in
 				counters[key] = int(iValue)
 			}
 		}
+		if strings.HasPrefix(key, "h_") {
+			cList, found := value.([]interface{})
+			if !found {
+				log.Printf("Problem collecting histrogram, was expecting list but got: " + reflect.TypeOf(value).Name())
+				continue
+			}
+			p75, found1 := cList[0].(int)
+			p95, found2 := cList[1].(int)
+			p99, found3 := cList[2].(int)
+			median, found4 := cList[3].(int)
+			if !found1 || !found2 || !found3 || found4 {
+				log.Printf("Problem formatting histrogram values to ints")
+				continue
+			}
+			counters[key+".p75"] = int(p75)
+			counters[key+".p95"] = int(p95)
+			counters[key+".p99"] = int(p99)
+			counters[key+".median"] = int(median)
+		}
 	}
 	return counters
 }

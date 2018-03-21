@@ -21,6 +21,8 @@ export class Metric {
       return new CounterMetric(key, value);
     } else if (key.startsWith('k_')) {
       return new CustomKeyMetric(key, value);
+    } else if (key.startsWith('h_')) {
+      return new HistogramMetric(key, value);
     }
     return new Metric(key, value);
   }
@@ -44,6 +46,50 @@ export class Metric {
   constructor(key: string, value: any) {
     this._key = key;
     this._value = value;
+  }
+}
+
+export class HistogramMetric extends Metric {
+  public title(): string {
+    return this._key[2].toUpperCase() + this._key.substring(3);
+  }
+
+  public value(): string {
+    const data = this._value as Number[];
+    if (data === undefined) {
+      return 'N/A';
+    }
+    const p75 = data[0];
+    const p95 = data[1];
+    const p99 = data[2];
+    const median = data[3];
+    return String(p75) + '/' + String(p95) + '/' + String(p99) + '/' + String(median);
+  }
+
+  public groupValues(totalMetric: TotalMetric): TotalMetric {
+    const data = this._value as Number[];
+    if (data === undefined || data.length === 0) {
+      return totalMetric;
+    }
+
+    if (totalMetric === undefined) {
+      totalMetric = new TotalMetric(this.title() + ' median');
+      totalMetric.values['p75'] = Number(data[0]);
+      totalMetric.values['p95'] = Number(data[1]);
+      totalMetric.values['p99'] = Number(data[2]);
+      totalMetric.values['median'] = Number(data[3]);
+    } else {
+      totalMetric.values['p75'] = Math.floor((Number(data[0]) + Number(totalMetric.values['p75'])) / 2);
+      totalMetric.values['p95'] = Math.floor((Number(data[1]) + Number(totalMetric.values['p95'])) / 2);
+      totalMetric.values['p99'] = Math.floor((Number(data[2]) + Number(totalMetric.values['p99'])) / 2);
+      totalMetric.values['median'] = Math.floor((Number(data[3]) + Number(totalMetric.values['median'])) / 2);
+    }
+    totalMetric.outputBig = String(totalMetric.values['median']) + ' / ' +
+                            String(totalMetric.values['p75']) + ' / ' +
+                            String(totalMetric.values['p95']) + ' / ' +
+                            String(totalMetric.values['p99']);
+    totalMetric.outputSmall = 'median / 75 / 95 / 99';
+    return totalMetric;
   }
 }
 

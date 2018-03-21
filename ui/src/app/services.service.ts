@@ -127,8 +127,8 @@ export class ServiceInfo {
         }
       }
     }
-    retInfo.version = Number.parseInt(data.config["v"].value);
-    retInfo.updated = Number.parseInt(data.config["v"].updated);
+    retInfo.version = Number.parseInt(data.config['v'].value);
+    retInfo.updated = Number.parseInt(data.config['v'].updated);
 
     // Collect instance info
     for (const k in data.clients) {

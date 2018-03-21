@@ -45,12 +45,14 @@ func handleMockService(w http.ResponseWriter, r *http.Request) {
 	instances["1234"] = i
 	i["started"] = fmt.Sprintf("%v", time.Now().Unix())
 	i["c_value"] = [1]int{2}
+	i["h_histo"] = [4]int{75, 95, 99, 50}
 	i["k_key"] = fmt.Sprintf("Single-value")
 	i["cv"] = fmt.Sprintf("1.0.0")
 	i = make(map[string]interface{})
 	instances["1235"] = i
-	i["started"] = fmt.Sprintf("%v", time.Now().Unix())
+	i["started"] = fmt.Sprintf("%v", time.Now().Unix()-1000)
 	i["c_value"] = [3]int{2, 3, 5}
+	i["h_histo"] = [4]int{80, 100, 120, 70}
 	i["k_key"] = fmt.Sprintf("Multi-value")
 	i["cv"] = fmt.Sprintf("1.0.0")
 	info := make(map[string]string)
