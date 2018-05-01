@@ -17,7 +17,16 @@ Types
 
 - Install dependencies `make vendor_get`
 - Build the app `make`
-- Run it `./ccentral`
+- Run it `./ccentral` or in mocked presentation mode `./ccentral --presentation`
+
+### Quick Docker Setup
+
+- Install dependencies `make vendor_get`
+- Build the app `make static`
+- Build Docker image `docker build -t ccentral:latest .`
+- Create container `docker create --name ccentral -p 3000:3000 ccentral:latest` 
+- Alternative: Create offline presentation container with mocked service `docker create --name ccentral -p 3000:3000 ccentral:latest --presentation`
+- Start `docker start ccentral`
 
 ### Usage
 

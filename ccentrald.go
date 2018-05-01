@@ -217,7 +217,7 @@ _________ _________                __                .__
 		router.HandleFunc("/api/1/services/{serviceId}/keys/{keyId}", handleMockItem)
 	}
 	log.Printf("Admin UI available at :" + *port)
-	err := http.ListenAndServe(":"+*port, router)
+	err := http.ListenAndServe("0.0.0.0:"+*port, router)
 	if err != nil {
 		log.Fatal(err)
 	}
