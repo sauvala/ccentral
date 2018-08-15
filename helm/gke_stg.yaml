@@ -5,9 +5,9 @@ deployment:
     - name: PORT
       value: "30124"
   nodeSelector:
-    service: "ccentral"
+    service: "dse"
   tolerations:
     - key: "service"
       operator: "Equal"
-      value: "ccentral"
+      value: "dse"
       effect: "NoSchedule"
