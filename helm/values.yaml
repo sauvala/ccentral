@@ -1,0 +1,27 @@
+enableDeployment: true
+enableVaultSecrets: false
+
+namespace: ads
+productgroup: analytics
+deployment:
+  args: ["/ccentral"]
+  image:
+    repository: registry2.applifier.info:5005/ccentral
+  livenessProbe:
+    path: /check
+    port: 3000
+    timeoutSeconds: 15
+  readinessProbe:
+    path: /check
+    port: 3000
+    timeoutSeconds: 15
+  ports:
+    - containerPort: 3000
+      protocol: TCP
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi

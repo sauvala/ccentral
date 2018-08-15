@@ -1,0 +1,13 @@
+deployment:
+  appendEnv:
+    - name: ETCD
+      value: "http://127.0.0.1:2379"
+    - name: PORT
+      value: "3000"
+  nodeSelector:
+    service: "ccentral"
+  tolerations:
+    - key: "service"
+      operator: "Equal"
+      value: "ccentral"
+      effect: "NoSchedule"
