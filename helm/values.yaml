@@ -9,14 +9,14 @@ deployment:
     repository: registry2.applifier.info:5005/ccentral
   livenessProbe:
     path: /check
-    port: 3000
+    port: 30124
     timeoutSeconds: 15
   readinessProbe:
     path: /check
-    port: 3000
+    port: 30124
     timeoutSeconds: 15
   ports:
-    - containerPort: 3000
+    - containerPort: 30124
       protocol: TCP
   resources:
     requests:

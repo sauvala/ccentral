@@ -3,7 +3,7 @@ deployment:
     - name: ETCD
       value: "http://127.0.0.1:2379"
     - name: PORT
-      value: "3000"
+      value: "30124"
   nodeSelector:
     service: "ccentral"
   tolerations:
