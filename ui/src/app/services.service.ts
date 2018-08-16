@@ -39,10 +39,10 @@ export class Instance {
   metrics: Metric[];
 
   public static fromData(id: string, data: Map<string, any>): Instance {
-    let instance = new Instance(id);
-    for (var key in data) {
+    const instance = new Instance(id);
+    for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        var element = data[key];
+        const element = data[key];
         instance.metrics.push(Metric.fromData(key, element));
       }
     }
@@ -103,10 +103,10 @@ export class ServiceInfo {
 
   public static fromCCData(data: CCServiceInfo) {
     // Collect schema info
-    let retInfo = new ServiceInfo(data.id);
+    const retInfo = new ServiceInfo(data.id);
     for (const k in data.schema) {
       if (data.schema.hasOwnProperty(k)) {
-        let conf = Config.fromData(k, data.schema[k]);
+        const conf = Config.fromData(k, data.schema[k]);
         if (!conf.systemConfig) {
           retInfo.schema.push(conf);
         }

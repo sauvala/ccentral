@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
+	"strings"
 
 	"github.com/gorilla/mux"
 	"github.com/slvwolf/ccentral/client"
@@ -39,21 +39,33 @@ func setHeaders(w http.ResponseWriter) {
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	path := vars["path"]
 	res := vars["res"]
-	if path == "" || path == "/" {
+	if res == "" {
 		res = "index.html"
-		path = ""
 	}
-	if path == "js" {
+	handleResource(w, "ui/dist/", res)
+}
+
+func handleAssets(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	assertType := vars["type"]
+	res := vars["res"]
+	handleResource(w, "ui/dist/assets/"+assertType+"/", res)
+}
+
+func handleResource(w http.ResponseWriter, path string, res string) {
+	if strings.HasSuffix(res, "js") {
 		w.Header().Add("Content-Type", "application/javascript; charset=utf-8")
 	}
-	if path == "css" {
+	if strings.HasSuffix(res, "css") {
 		w.Header().Add("Content-Type", "text/css")
 	}
+	if strings.HasSuffix(res, "html") {
+		w.Header().Add("Content-Type", "text/html; charset=utf-8")
+	}
 	w.WriteHeader(200)
-	path = "ui/build/" + path + "/" + res
-	body, _ := ioutil.ReadFile(path)
+	body, _ := ioutil.ReadFile(path + res)
+	log.Printf("Serving :" + path + res)
 	w.Write(body)
 }
 
@@ -191,7 +203,7 @@ _________ _________                __                .__
 	router.HandleFunc("/", handleRoot)
 	router.HandleFunc("/{res}", handleRoot)
 	router.HandleFunc("/check", handleCheck)
-	router.HandleFunc("/{path}/{res}", handleRoot)
+	router.HandleFunc("/assets/{type}/{res}", handleAssets)
 	cc = &client.CCService{}
 	if !*presentation {
 		err := cc.InitCCentral(*etcdHost)

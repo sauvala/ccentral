@@ -2,7 +2,7 @@ PKGS = $(shell go list ./... | grep -v /vendor/)
 GO ?= go
 TMP_PATH ?= /tmp/gopath
 
-all: test build
+all: test build build_ui
 
 get:
 	$(GO) get -u github.com/gorilla/mux
@@ -15,6 +15,8 @@ test:
 
 build:
 	GOPATH=${PWD}/vendor $(GO) build
+	
+build_ui:
 	cd ui && ng build && cd ..
 
 static_linux:

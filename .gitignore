@@ -1,4 +1,5 @@
 *.iml
+ui/dist
 _vendor
 vendor
 ccentral
