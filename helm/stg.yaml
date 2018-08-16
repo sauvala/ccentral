@@ -1,0 +1,14 @@
+environment: stg
+deployment:
+  replicas: 2
+  appendEnv:
+    - name: PORT
+      value: "30124"
+    - name: ETCD
+      value: "http://etcd.staging-ads.applifier.info:4001"
+service:
+  annotations:
+    dns.unity3d.com/hostname: ccentral.ads.stg
+ingress:
+  secretName: tls-wildcard-staging-unityads-unity3d-com
+  host: ccentral.staging.unityads.unity3d.com
