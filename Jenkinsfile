@@ -5,5 +5,5 @@ Script {
   cluster = "ie"
   staging_env = ["stg-ause1a", "stg-ause1b", "ads-gke-stg"]
   production_env = ["prd-ause1a", "prd-ause1b"]
-  deploy_prod = "true"
+  deploy_prod = "false"
 }
