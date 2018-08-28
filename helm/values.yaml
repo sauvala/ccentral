@@ -1,0 +1,37 @@
+enableDeployment: true
+enableVaultSecrets: false
+enableService: true
+enableIngress: true
+
+namespace: ads
+productgroup: analytics
+deployment:
+  args: ["/ccentral"]
+  image:
+    repository: registry2.applifier.info:5005/ccentral
+  livenessProbe:
+    path: /check
+    port: 30124
+    timeoutSeconds: 15
+  readinessProbe:
+    path: /check
+    port: 30124
+    timeoutSeconds: 15
+  ports:
+    - containerPort: 30124
+      protocol: TCP
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1024Mi
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+
+service:
+  type: NodePort
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 30124
