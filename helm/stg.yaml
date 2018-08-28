@@ -5,10 +5,7 @@ deployment:
     - name: PORT
       value: "30124"
     - name: ETCD
-      value:
-        - "dse-etcd-stg-0.c.unity-ads-dse-stg.internal:2379"
-        - "dse-etcd-stg-1.c.unity-ads-dse-stg.internal:2379"
-        - "dse-etcd-stg-2.c.unity-ads-dse-stg.internal:2379"
+      value: "dse-etcd-stg-0.c.unity-ads-dse-stg.internal:2379,dse-etcd-stg-1.c.unity-ads-dse-stg.internal:2379,dse-etcd-stg-2.c.unity-ads-dse-stg.internal:2379"
   nodeSelector:
     service: "dse"
   tolerations:
