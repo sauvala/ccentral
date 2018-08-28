@@ -1,7 +1,10 @@
 deployment:
   appendEnv:
     - name: ETCD
-      value: "http://127.0.0.1:2379"
+      value:
+        - "dse-etcd-stg-0.c.unity-ads-dse-stg.internal:2379"
+        - "dse-etcd-stg-1.c.unity-ads-dse-stg.internal:2379"
+        - "dse-etcd-stg-2.c.unity-ads-dse-stg.internal:2379"
     - name: PORT
       value: "30124"
   nodeSelector:
