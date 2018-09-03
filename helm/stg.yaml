@@ -5,7 +5,7 @@ deployment:
     - name: PORT
       value: "30124"
     - name: ETCD
-      value: "http://etcd-0.dse.stg.mz.internal.unity3d.com:2379,http://etcd-1.dse.stg.mz.internal.unity3d.com:2379,http://etcd-2.dse.stg.mz.internal.unity3d.com:2379"
+      value: "etcd-0.dse.stg.mz.internal.unity3d.com:2379,etcd-1.dse.stg.mz.internal.unity3d.com:2379,etcd-2.dse.stg.mz.internal.unity3d.com:2379"
   nodeSelector:
     service: "dse"
   tolerations:
