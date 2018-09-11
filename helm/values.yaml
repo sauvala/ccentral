@@ -1,7 +1,7 @@
 enableDeployment: true
 enableVaultSecrets: false
 enableService: true
-enableIngress: true
+enableIngress: false
 
 namespace: ads
 productgroup: analytics
