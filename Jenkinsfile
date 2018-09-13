@@ -3,6 +3,6 @@
 Script {
   deploy = "helm"
   staging_env = ["ads-gke-stg"]
-  production_env = []
-  deploy_prod = "false"
+  production_env = ["ads-gke-prd"]
+  deploy_prod = "true"
 }
