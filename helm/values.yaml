@@ -38,4 +38,4 @@ service:
 
 enableBackendConfigs: true
 backendConfigs:
-    - allow-hel-only-policy"
+    - allow-hel-only-policy
