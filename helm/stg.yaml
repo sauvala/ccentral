@@ -14,3 +14,8 @@ deployment:
       value: "dse"
       effect: "NoSchedule"
 
+ingress:
+  secretName: tls-wildcard-staging-unityads-unity3d-com
+  host: ccentral.staging.unityads.unity3d.com
+  paths:
+    - "/*"

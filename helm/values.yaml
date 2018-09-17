@@ -36,12 +36,6 @@ service:
     port: 80
     targetPort: 30124
 
-ingress:
-  secretName: tls-wildcard-staging-unityads-unity3d-com
-  host: ccentral.staging.unityads.unity3d.com
-  paths:
-    - "/*"
-
 enableBackendConfigs: true
 backendConfigs:
     - allow-hel-only-policy"
