@@ -1,7 +1,7 @@
 enableDeployment: true
 enableVaultSecrets: false
 enableService: true
-enableIngress: false
+enableIngress: true
 
 namespace: ads
 productgroup: analytics
@@ -35,3 +35,7 @@ service:
     protocol: TCP
     port: 80
     targetPort: 30124
+
+enableBackendConfigs: true
+backendConfigs:
+    - allow-hel-only-policy"
