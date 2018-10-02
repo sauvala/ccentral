@@ -36,6 +36,6 @@ service:
     port: 80
     targetPort: 30124
 
-enableBackendConfigs: true
-backendConfigs:
+enableBackendConfig: true
+backendConfig:
     securityPolicy: allow-hel-only-policy
