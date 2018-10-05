@@ -1,4 +1,5 @@
 GO ?= go
+TMP_PATH ?= /tmp/gopath
 
 all: test build
 
@@ -15,9 +16,12 @@ build:
 	$(GO) build
 
 static_linux:
-#	GOPATH=${PWD}/_vendor go get -d -u -v \
+	rm -rf ${TMP_PATH}
+	mkdir ${TMP_PATH}
+	mkdir -p ${TMP_PATH}/src/github.com/slvwolf/ccentral
+	GOPATH=${TMP_PATH} go get -d -u -v \
 		github.com/gorilla/mux \
 		github.com/coreos/etcd/client \
 		golang.org/x/net/context
-	find . -type f | grep .go | grep -v _vendor | xargs sed -i '' -e 's/slvwolf/Applifier/g'
-	GOPATH=${PWD}/_vendor env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
+	cp -r * ${TMP_PATH}/src/github.com/slvwolf/ccentral
+	GOPATH=${TMP_PATH} env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
