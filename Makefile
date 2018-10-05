@@ -15,11 +15,9 @@ build:
 	$(GO) build
 
 static_linux:
-	GOPATH := ${PWD}/_vendor:$(GOPATH)
-	export GOPATH
-	GOPATH=${PWD}/_vendor go get -d -u -v \
+#	GOPATH=${PWD}/_vendor go get -d -u -v \
 		github.com/gorilla/mux \
 		github.com/coreos/etcd/client \
 		golang.org/x/net/context
-	find . -type f | xargs sed -i 's/slvwolf/Applifier/g'
-	env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
+	find . -type f | grep .go | grep -v _vendor | xargs sed -i '' -e 's/slvwolf/Applifier/g'
+	GOPATH=${PWD}/_vendor env GOOS=linux GOARCH=amd64 $(GO) build -a -ldflags '-s' -tags netgo -installsuffix netgo -v -o ccentral
