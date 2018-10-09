@@ -13,10 +13,6 @@ deployment:
       operator: "Equal"
       value: "dse"
       effect: "NoSchedule"
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "80"
-    prometheus.io/path: "/plugins/prometheus/data"
 
 ingress:
   secretName: tls-wildcard-staging-unityads-unity3d-com
