@@ -29,7 +29,7 @@ deployment:
       memory: 1024Mi
   annotations:
     prometheus.io/scrape: "true"
-    prometheus.io/port: "80"
+    prometheus.io/port: "30124"
     prometheus.io/path: "/plugins/prometheus/data"
 
 service:
