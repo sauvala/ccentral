@@ -1,6 +1,6 @@
 environment: prd
 deployment:
-  replicas: 2
+  replicas: 1
   appendEnv:
     - name: PORT
       value: "30124"
