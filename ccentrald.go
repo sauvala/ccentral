@@ -179,8 +179,8 @@ _________ _________                __                .__
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", handleRoot)
-	router.HandleFunc("/{res}", handleRoot)
 	router.HandleFunc("/check", handleCheck)
+	router.HandleFunc("/{res}", handleRoot)
 	router.HandleFunc("/{path}/{res}", handleRoot)
 	cc = &client.CCService{}
 	if !*presentation {
