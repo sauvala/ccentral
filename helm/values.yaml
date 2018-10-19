@@ -42,4 +42,4 @@ service:
 
 enableBackendConfig: true
 backendConfig:
-    securityPolicy: allow-hel-only-policy
+    securityPolicy: allow-ads-only-policy
