@@ -1,0 +1,14 @@
+service: ads-dse-ccentral
+panels:
+  - kind: custom
+    from: ./monitoring/instances.json
+alerts:
+  - kind: custom
+    name: ads_dse_ccentral_instances
+    expr: (count(kube_pod_container_status_running{container="ccentral", environment="prd"})) < 1
+    severity: slack
+    receiver: DSE
+    for: 5m
+    annotations:
+      summary: No CCentral instances running
+      description: 'CCentral instance count below treshold: {{ $value }})'
