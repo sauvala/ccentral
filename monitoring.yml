@@ -20,4 +20,4 @@ alerts:
     for: 5m
     annotations:
       summary: Insufficient etcd instances running
-      description: 'etcd instance count below threshold: {{ $value }})'
+      description: 'Etcd instance count below threshold: {{ $value }})'
