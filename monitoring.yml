@@ -11,4 +11,13 @@ alerts:
     for: 5m
     annotations:
       summary: No CCentral instances running
-      description: 'CCentral instance count below treshold: {{ $value }})'
+      description: 'CCentral instance count below threshold: {{ $value }})'
+  - kind: custom
+    name: ads_dse_etcd_instances
+    expr: (sum(etcd_server_has_leader{cluster_name="etcd-dse-prd"})) < 3
+    severity: slack
+    receiver: DSE
+    for: 5m
+    annotations:
+      summary: Insufficient etcd instances running
+      description: 'Etcd instance count below threshold: {{ $value }})'
