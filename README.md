@@ -36,6 +36,9 @@ Grafana:
 
 ### Runbook
 
+#### Restart CCentral UI
+Rebuild from `http://jenkins.applifier.info/job/Applifier/job/ccentral/job/master/`
+
 ## WebUI
  
 ### Building
