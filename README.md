@@ -2,6 +2,8 @@
 
 Simple centralized configuration management and real-time monitoring for services over etcd.
 
+![Dependencies](ccentral.png "Dependencies")
+
 ## Operations
 
 __UI__
