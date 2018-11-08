@@ -2,6 +2,43 @@
 
 Simple centralized configuration management and real-time monitoring for services over etcd.
 
+## Operations
+
+__UI__
+Criticality: :droplet: High, aggregated metrics wont be published to Prometheus
+
+* :white_check_mark: _Safe to restart at anytime_
+  * No impact on anything
+* :white_check_mark: _Safe to be down for some minutes_
+  * Aggregated monitoring data will not be published to Prometheus while being down.
+* :white_check_mark: _Safe to parallelize_
+  * Ideally running with 2-4 instances
+
+__ETCD__
+Criticality: :fire: Critical
+
+* :question: TBD
+
+Channel:
+* Slack: #dse-support
+  
+Contacts:
+* Jarrod Creado (jarrod@unity3d.com)
+* Samuel Husso (samuel@unity3d.com)
+* Santtu Järvi (santtu@unity3d.com)
+* Niko Korhonen (niko@unity3d.com)
+
+### Monitoring
+
+Grafana:
+- Grafana: https://grafana.internal.unity3d.com/d/9SvzPybmk/ads-dse-ccentral?orgId=1
+- Monitoring: [Monitoring](monitoring.yml)
+
+### Runbook
+
+#### Restart CCentral UI
+Rebuild from `http://jenkins.applifier.info/job/Applifier/job/ccentral/job/master/`
+
 ## WebUI
  
 ### Building
