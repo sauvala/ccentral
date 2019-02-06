@@ -30,6 +30,11 @@ Contacts:
 * Santtu Järvi (santtu@unity3d.com)
 * Niko Korhonen (niko@unity3d.com)
 
+### Deployment
+_Deployment happens with standard Jenkins. Deploying this service will not have any impact on services themselves but might have an effect on monitoring._
+
+* https://jenkins.prd.mz.internal.unity3d.com/job/Applifier/job/ccentral/
+
 ### Monitoring
 
 Grafana:
