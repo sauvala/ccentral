@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Table from 'react-bootstrap/Table'
 
+/**
+ * TODO: Some of the headers should be hidden
+ * TODO: Missing status field
+ * TODO: Allow hiding some fields
+ * TODO: Sort by field
+ */
 export default class Instances extends Component {
     static propTypes = {
         instances: PropTypes.array
@@ -38,6 +44,7 @@ export default class Instances extends Component {
             return this.upperCaseFirstLetter(key.substr(2));
         }
         if (key === "ts") {
+            return "ts"
             // TODO: Handle old timestamp
         } else if (key === "v") {
             return "Version"

@@ -19,6 +19,7 @@ export default class Service extends Component {
         this.ccApi = props.ccApi
         this.state = {
             instanceInfo: [],
+            infos: {},
             serviceId: props.serviceId,
             loaded: false
         }
@@ -31,6 +32,7 @@ export default class Service extends Component {
             console.log(data)
             updatesState.loaded = true
             updatesState.instanceInfo = this.loadInstanceInfo(data.clients)
+            updatesState.infos = data.info
             this.setState(updatesState)
         }
     }
@@ -53,7 +55,7 @@ export default class Service extends Component {
                 {this.state.loaded ?
                     <div>
                         <Stats />
-                        <Info />
+                        <Info infos={this.state.infos}/>
                         <Instances instanceInfo={this.state.instanceInfo} />
                         <Configuration />
                     </div>
