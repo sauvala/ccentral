@@ -8,7 +8,7 @@ export default class Main extends Component {
       <Container>
         <Row className="justify-content-md-center" style={{ 'paddingBottom': '10px' }}>
           <Col xs={10} md={4}>
-            Base
+            Front page coming soon...
           </Col>
         </Row>
       </Container>
